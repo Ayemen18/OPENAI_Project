@@ -3,13 +3,15 @@ import { useContext, useEffect } from "react"
 import { MyContext } from "./MyContext.jsx"
 import {v1 as uuidv1} from 'uuid';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 function Sidebar(){
     const {allThreads, setAllThreads, currThreadId, setPrompt, setReply, setCurrThreadId, setNewChat, setPrevChats} = useContext(MyContext);
 
 
     const getAllThreads = async() =>{
         try {
-            const response = await fetch('http://localhost:8080/api/thread');
+            const response = await fetch(`${backendUrl}/api/thread`);
             const res = await response.json();
             const filtereddata = res.map(thread =>({
                 threadid: thread.threadid,
@@ -33,7 +35,7 @@ function Sidebar(){
     const changeThread = async (newthreadid) => {
         setCurrThreadId(newthreadid);
         try{
-            const response = await fetch(`http://localhost:8080/api/thread/${newthreadid}`);
+            const response = await fetch(`${backendUrl}/api/thread/${newthreadid}`);
             const res = await response.json();
             setPrevChats(res);
             setNewChat(false);
@@ -46,7 +48,7 @@ function Sidebar(){
 
     const deleteThread = async (threadid) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/thread/${threadid}`, {method: 'DELETE',});
+            const response = await fetch(`${backendUrl}/api/thread/${threadid}`, {method: 'DELETE',});
             const res = await response.json();
             setAllThreads(allThreads.filter(thread => thread.threadid !== threadid));
 

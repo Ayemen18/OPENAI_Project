@@ -4,6 +4,8 @@ import {MyContext} from './MyContext.jsx'
 import {useContext, useState, useEffect, use} from 'react'
 import { ClipLoader } from "react-spinners";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 function Chatwindow(){
     const {prompt, setPrompt, reply, setReply, currThreadId, prevChats, setPrevChats, setNewChat} = useContext(MyContext);
     const[loading, setLoading] = useState(false);
@@ -25,7 +27,7 @@ function Chatwindow(){
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/chat', options);
+            const response = await fetch(`${backendUrl}/api/chat`, options);
             const data = await response.json();
             console.log(data);
             setReply(data.reply);
