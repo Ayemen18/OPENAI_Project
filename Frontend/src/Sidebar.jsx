@@ -2,6 +2,7 @@ import "./Sidebar.css"
 import { useContext, useEffect } from "react"
 import { MyContext } from "./MyContext.jsx"
 import {v1 as uuidv1} from 'uuid';
+import blacklogo from "./assets/blacklogo.png";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -68,7 +69,7 @@ function Sidebar(){
     return (
         <section className="sidebar">
             <button onClick={createNewChat}>
-                <img src="src/assets/blacklogo.png" alt="GPT Logo" className="logo"/>
+                <img src={blacklogo} alt="GPT Logo" className="logo"/>
                 <span><i className="fa-solid fa-pen-to-square"></i></span>
             </button>
 
