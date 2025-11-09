@@ -50,31 +50,23 @@ function Chat() {
           </div>
         ))}
 
-        {
-          prevChats.length>0 && (
-            <>
-                {
-                  latestReply === null ? (
-                    <div className="GPTDiv" key={"non-typing"}>
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-              {prevChats[prevChats.length - 1].content}
-            </ReactMarkdown>
-          </div>
-                  ) : (
-                    <div className="GPTDiv" key={"typing"}>
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-              {latestReply}
-            </ReactMarkdown>
-          </div>
-                  )
-                }
-            
-            
-            
-            </>
-          )
-        }
-
+        {prevChats.length > 0 && (
+          <>
+            {latestReply === null ? (
+              <div className="GPTDiv" key={"non-typing"}>
+                <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                  {prevChats[prevChats.length - 1].content}
+                </ReactMarkdown>
+              </div>
+            ) : (
+              <div className="GPTDiv" key={"typing"}>
+                <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                  {latestReply}
+                </ReactMarkdown>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </>
   );
