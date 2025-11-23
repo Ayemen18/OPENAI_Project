@@ -11,19 +11,28 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch (`${backendUrl}/auth/login`, {
+            const res = await fetch(`${backendUrl}/auth/login`, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body : JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
             });
             const data = await res.json();
 
+            // 🕵️‍♂️ DEBUGGING LOGS
+            console.log("Server Response Status:", res.status);
+            console.log("Full Server Data:", data); 
+            console.log("Token in Data:", data.token); // <--- IS THIS UNDEFINED?
+
             if(res.ok){
+                // Check if we are passing undefined things
+                if (!data.token) {
+                    alert("Server did not send a token!");
+                    return;
+                }
+                
                 login(data.token, data.user);
                 navigate("/");
-            } else{
+            } else {
                 alert(data.message || "Login failed");
             }
 

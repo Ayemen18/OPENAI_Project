@@ -81,7 +81,7 @@ function Sidebar(){
                             className={currThreadId === thread.threadid ? "highlighted" : ""}
                         >
                             {thread.title}
-                            <i class="fa-solid fa-trash"
+                            <i className="fa-solid fa-trash"
                                 onClick={(e)=>{
                                     e.stopPropagation();
                                     deleteThread(thread.threadid);

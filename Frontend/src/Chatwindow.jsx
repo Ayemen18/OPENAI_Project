@@ -25,14 +25,21 @@ function Chatwindow() {
   const getReply = async () => {
     setLoading(true);
     setNewChat(false);
+
+    const tokenToCheck = localStorage.getItem('token');
+    console.log("🚀 Sending Request to:", `${backendUrl}/api/chat`);
+    console.log("🔑 Token being sent:", tokenToCheck);
+    
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({
         message: prompt,
         threadid: currThreadId,
+
       }),
     };
 
