@@ -1,35 +1,40 @@
-import './App.css'
-import Sidebar from './Sidebar.jsx'
-import Chatwindow from './Chatwindow.jsx'
-import {MyContext} from './MyContext.jsx'
-import {useState} from 'react'
-import {v1 as uuidv1} from 'uuid';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./AuthContext";
+
+import Login from "./Login";
+import Register from "./Register";
+import ChatInterface from "./ChatInterface";
+
+const ProtectedRoute = ({children}) => {
+  const {user, loading} = useAuth();
+
+  if(loading) return <div>Loading...</div>;
+  if(!user) return <Navigate to="/login" />;
+
+  return children;
+};
 
 function App() {
-  const [prompt, setPrompt] = useState('')
-  const [reply, setReply] = useState(null)
-  const [currThreadId, setCurrThreadId] = useState(uuidv1());
-  const [prevChats, setPrevChats] = useState([])
-  const [newChat, setNewChat] = useState(true)
-  const [allThreads, setAllThreads] = useState([])
-
-  const providerValues = {
-    prompt,setPrompt,
-    reply,setReply,
-    currThreadId,setCurrThreadId,
-    prevChats,setPrevChats,
-    newChat,setNewChat,
-    allThreads,setAllThreads
-  };
-
   return (
-    <div className="app">
-      <MyContext.Provider value={providerValues}>
-        <Sidebar />
-        <Chatwindow />
-      </MyContext.Provider>
-    </div>
-  )
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <ChatInterface />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
